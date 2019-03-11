@@ -24,14 +24,7 @@ app.get('/',function(req,res){
 });
 
 // Initialize Firebase
-var config = {
-	apiKey: "AIzaSyAaU5BI_arfcL8A3chEdBkW1iXgRd0JjgM",
-    authDomain: "testagent-d5375.firebaseapp.com",
-    databaseURL: "https://testagent-d5375.firebaseio.com",
-    projectId: "testagent-d5375",
-    storageBucket: "testagent-d5375.appspot.com",
-    messagingSenderId: "541719630777"
-};	
+var config = require("./config.json")
 
 firebase.initializeApp(config);
 
