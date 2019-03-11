@@ -1,23 +1,27 @@
 //Running app on port 3000
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const port = 3000
+const express = require('express');
+const bodyParser = require('body-parser');
+const firebase = require('firebase');
 
+const app = express();
+
+//Local files can be read from this folder
 app.use(express.static('public'));
 
 //using body-parsers to read post API data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false})); 
 
+//Setting up server
+const server = app.listen(process.env.PORT || 3000, function () {
+    var port = server.address().port;
+    console.log("App now running on port", port);
+});
+
 app.get('/',function(req,res){
     res.sendFile(path.join(__dirname+'/index.html'));
     //__dirname : It will resolve to your project folder.
 });
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
-
-const firebase = require('firebase')
 
 // Initialize Firebase
 var config = {
