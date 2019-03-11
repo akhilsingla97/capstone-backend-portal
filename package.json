@@ -1,0 +1,17 @@
+{
+  "name": "major_node_app",
+  "version": "1.0.0",
+  "description": "capstone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Akhil Singla",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "firebase": "^5.8.6",
+    "firebase-admin": "^7.0.0"
+  }
+}
