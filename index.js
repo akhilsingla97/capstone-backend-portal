@@ -2,7 +2,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const firebase = require('firebase');
-const helper = require('./helper.js')
+const path = require('path');
+// const helper = require('./helper.js')
 
 const app = express();
 
@@ -33,13 +34,17 @@ console.log(firebase)
 
 var database = firebase.database()
 var ref = database.ref('test')
-var sampledata = {
-	name: "Akhil",
-	order: "Noodles"
-}
+// var sampledata = {
+// 	name: "Akhil",
+// 	order: "Noodles"
+// }
 
 ref.push(sampledata)
 
-ref.on('value', gotData, errData)
+ref.on('value', (data) => {
+    console.log(data);
+}, (err) => {
+    console.log(err);
+});
 
 
