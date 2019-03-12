@@ -42,7 +42,7 @@ app.get("/", function(req, res) {
         id: "211wewr12131232",
         item: "Tomato Soup",
         quantity: 3,
-        status: "placed",
+        status: "confirmed",
         table: 322,
         info: "None"
       },
