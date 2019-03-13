@@ -25,28 +25,9 @@ var config = require("./config.json")
 firebase.initializeApp(config);
 
 var database = firebase.database();
-//var ref = database.ref('test');
-
-// ref.push(sampledata)
-
-// ref.on('value', (data) => {
-//     console.log(data.val());
-// }, (err) => {
-//     console.log(err);
-// });
+var ref = database.ref('capstone-f942f')
 
 const testdata = require('./sampletest.json')
-
-// const testData = setInterval(() => {
-//     let ref = database.ref('test')
-//     ref.on('value', (data)=> {
-//         return data.val();
-//     }, (err)=>{
-//         console.log(err)
-//     })
-// }, 10000);
-
-// console.log(testData);
 
 //Home page- rendering using sample data as of now
 // app.get("/", (req, res) => {
@@ -54,18 +35,41 @@ const testdata = require('./sampletest.json')
 //     res.render(__dirname + "/index", testdata);
 // });
 
+var sendData = {};
+var testData = [];
+
 app.get("/", (req, res, next) => {
-    let ref = database.ref('test')
+    sendData = {};
+    testData = [];
+    ref = database.ref('TableNo101')
     ref.on('value', (data)=> {
-        testData = data.val();
-        console.log(testData);
+        console.log(data.val());
+        // var testData = []
+        var orderId = []
+        for(item in data.val().Order){
+            orderId.push(item);
+        }
+        for(var i=0;i<orderId.length;i++){
+            // console.log(data.val().Order[orderId[i]])
+            for(var j=0;j<data.val().Order[orderId[i]].food_items.length;j++)
+                testData.push({"item" : data.val().Order[orderId[i]].food_items[j],
+                    "id" : 0,
+                    "quantity" : data.val().Order[orderId[i]].quantity[j],
+                    "status" : "Pending",
+                    "table" : "101",
+                    "info" : "NA"
+            })
+        }
+        sendData["data"] = testData;
+        // console.log(orderId);
+        console.log(sendData);
     }, (err)=>{
         console.log(err)
     })
     next()
     }, (req, res)=>{
-        console.log()
-        res.render(__dirname + "/index", testdata);
+        // console.log()
+        res.render(__dirname + "/index", sendData);
 });
 
 
