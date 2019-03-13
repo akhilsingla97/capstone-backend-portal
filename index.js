@@ -24,42 +24,55 @@ var config = require("./config.json")
 
 firebase.initializeApp(config);
 
-console.log(firebase)
-
-var database = firebase.database()
-var ref = database.ref('test')
+var database = firebase.database();
+//var ref = database.ref('test');
 
 // ref.push(sampledata)
 
-ref.on('value', (data) => {
-    console.log(data.val());
-}, (err) => {
-    console.log(err);
-});
+// ref.on('value', (data) => {
+//     console.log(data.val());
+// }, (err) => {
+//     console.log(err);
+// });
 
 const testdata = require('./sampletest.json')
 
-const testData = setInterval(() => {
-    ref = database.ref('order')
+// const testData = setInterval(() => {
+//     let ref = database.ref('test')
+//     ref.on('value', (data)=> {
+//         return data.val();
+//     }, (err)=>{
+//         console.log(err)
+//     })
+// }, 10000);
+
+// console.log(testData);
+
+//Home page- rendering using sample data as of now
+// app.get("/", (req, res) => {
+//     // console.log(testData)
+//     res.render(__dirname + "/index", testdata);
+// });
+
+app.get("/", (req, res, next) => {
+    let ref = database.ref('test')
     ref.on('value', (data)=> {
-        return data.val();
+        testData = data.val();
+        console.log(testData);
     }, (err)=>{
         console.log(err)
     })
-}, 10000);
-
-console.log(testData);
-
-//Home page- rendering using sample data as of now
-app.get("/", function(req, res) {
-    // console.log(testData)
-    res.render(__dirname + "/index", testdata);
+    next()
+    }, (req, res)=>{
+        console.log()
+        res.render(__dirname + "/index", testdata);
 });
+
 
 //triggered on confirmation of order
 app.get('/confirm/:orderId', (req,res) => {
     let orderId = req.params.orderId;
-    ref = database.ref('test/'+orderId)
+    let ref = database.ref('test/'+orderId)
     ref.on('value', (data) => {
         //let orderId = req.params.orderId;
         console.log(orderId);
@@ -82,4 +95,3 @@ app.get('/prepared/:orderId', (req,res) => {
         res.sendStatus(500);
     })
 });
-
