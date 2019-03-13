@@ -1,9 +1,7 @@
-//Running app on port 3000
 const express = require('express');
 const bodyParser = require('body-parser');
 const firebase = require('firebase');
 const path = require('path');
-// const helper = require('./helper.js')
 
 const app = express();
 
@@ -20,11 +18,6 @@ const server = app.listen(process.env.PORT || 3000, function () {
     console.log("App now running on port", port);
 });
 
-app.get('/',function(req,res){
-    res.sendFile(path.join(__dirname+'/index.html'));
-    //__dirname : It will resolve to your project folder.
-});
-
 // Initialize Firebase
 var config = require("./config.json")
 
@@ -34,12 +27,8 @@ console.log(firebase)
 
 var database = firebase.database()
 var ref = database.ref('test')
-// var sampledata = {
-// 	name: "Akhil",
-// 	order: "Noodles"
-// }
 
-ref.push(sampledata)
+// ref.push(sampledata)
 
 ref.on('value', (data) => {
     console.log(data);
@@ -47,4 +36,35 @@ ref.on('value', (data) => {
     console.log(err);
 });
 
+//Home page
+app.get('/', (req,res) => {
+    res.sendFile(path.join(__dirname+'/index.html'));
+    //__dirname : It will resolve to your project folder.
+});
+
+//triggered on confirmation of order
+app.get('/confirm/:orderId', (req,res) => {
+    let orderId = req.params.orderId;
+    ref = database.ref('test/orderId')
+    ref.on('value', (data) => {
+        //let orderId = req.params.orderId;
+        console.log(orderId);
+    }, (err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
+
+//triggered when order is prepared
+app.get('/prepared/:orderId', (req,res) => {
+    let orderId = req.params.orderId;
+    ref = database.ref('test/orderId')
+    ref.on('value', (data) => {
+        //Add the suitable query here
+        console.log(orderId);
+    }, (err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
 
