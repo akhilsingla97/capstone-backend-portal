@@ -11,6 +11,7 @@ app.use(express.static('public'));
 //using body-parsers to read post API data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false})); 
+app.set("view engine","pug");
 
 //Setting up server
 const server = app.listen(process.env.PORT || 3000, function () {
@@ -36,11 +37,17 @@ ref.on('value', (data) => {
     console.log(err);
 });
 
-//Home page
-app.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname+'/index.html'));
-    //__dirname : It will resolve to your project folder.
+const testdata = require('./sampletest.json')
+
+//Home page- rendering using sample data as of now
+app.get("/", function(req, res) {
+  res.render(__dirname + "/index", testdata);
 });
+
+// app.get('/', (req,res) => {
+//     res.sendFile(path.join(__dirname+'/index.html'));
+//     //__dirname : It will resolve to your project folder.
+// });
 
 //triggered on confirmation of order
 app.get('/confirm/:orderId', (req,res) => {

@@ -1,0 +1,46 @@
+doctype html
+html
+  head
+    title Capstone Project
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+    link(href="style.css" rel="stylesheet")
+  body
+    script(src="script.js")
+    script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous")
+    nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
+      a(class="navbar-brand" href="/") 
+        div.h3 Kitchen / Orders
+    br
+    div.container.container-fluid
+        each val in data 
+            div.card.border-primary.shadow.mb-2.bg-white.rounded(id=val['id'] )
+                div.card-header
+                    div.row
+                        div.col-sm-8.col-lg-6.col-md-6
+                            h3 #{val['item']} | #{val['quantity']}
+                        div.col-sm-4.col-lg-6.col-md-6
+                            div.btn-group(style="float: right; margin: auto;")
+                                if val['status'] === 'placed'
+                                    button.btn.btn-outline-danger.btn-sm.confirm(title="Confirm Order" id="confirm" + val['id'] onclick="confirmOrder('" + val['id'] + "')")
+                                        i.material-icons settings
+                                    button.btn.btn-outline-success.btn-sm(title="Completed"  id="done" + val['id'] disabled='disabled' onclick="completedOrder('" + val['id'] + "')" )
+                                        i.material-icons done
+                                else
+                                    button.btn.btn-outline-danger.btn-sm.confirm(title="Confirm Order" id="confirm" + val['id'] disabled='disabled' onclick="confirmOrder('" + val['id'] + "')")
+                                        i.material-icons settings
+                                    button.btn.btn-outline-success.btn-sm( id="done" + val['id'] title="Completed" onclick="completedOrder('" + val['id'] + "')")
+                                        i.material-icons done
+                div
+                    div.card-body
+                        h6(style="padding-left: 45px;") 
+                            b Order Id: 
+                            span #{val['id']}
+                        h6(style="padding-left: 45px;") 
+                            b Table Number: 
+                            span #{val['table']}
+                        h6(style="padding-left: 45px;") 
+                            b Additional Information: 
+                            span #{val['info']}
