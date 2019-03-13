@@ -11,7 +11,7 @@ app.use(express.static('public'));
 //using body-parsers to read post API data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false})); 
-app.set("view engine","pug");
+app.set("view engine", "pug");
 
 //Setting up server
 const server = app.listen(process.env.PORT || 3000, function () {
@@ -32,30 +32,38 @@ var ref = database.ref('test')
 // ref.push(sampledata)
 
 ref.on('value', (data) => {
-    console.log(data);
+    console.log(data.val());
 }, (err) => {
     console.log(err);
 });
 
 const testdata = require('./sampletest.json')
 
+const testData = setInterval(() => {
+    ref = database.ref('order')
+    ref.on('value', (data)=> {
+        return data.val();
+    }, (err)=>{
+        console.log(err)
+    })
+}, 10000);
+
+console.log(testData);
+
 //Home page- rendering using sample data as of now
 app.get("/", function(req, res) {
-  res.render(__dirname + "/index", testdata);
+    // console.log(testData)
+    res.render(__dirname + "/index", testdata);
 });
-
-// app.get('/', (req,res) => {
-//     res.sendFile(path.join(__dirname+'/index.html'));
-//     //__dirname : It will resolve to your project folder.
-// });
 
 //triggered on confirmation of order
 app.get('/confirm/:orderId', (req,res) => {
     let orderId = req.params.orderId;
-    ref = database.ref('test/orderId')
+    ref = database.ref('test/'+orderId)
     ref.on('value', (data) => {
         //let orderId = req.params.orderId;
         console.log(orderId);
+        console.log(data.val());
     }, (err) => {
         console.log(err);
         res.sendStatus(500);
