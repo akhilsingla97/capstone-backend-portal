@@ -19,6 +19,37 @@ const server = app.listen(process.env.PORT || 3000, function() {
   console.log("App now running on port", port);
 });
 
+app.post("/confirm_order/:orderId", (req, res) => {
+  console.log("Order confirmed by chef : " + req.params.orderId);
+  // Database update! # TODO
+  res.send("DONE!");
+});
+
+app.post("/finished_order/:orderId", (req, res) => {
+  console.log("Order finished : " + req.params.orderId);
+  // Database update! # TODO
+  res.render(__dirname + "/orderlist", {
+    data: [
+      {
+        id: "2113131212131232",
+        item: "Pizza",
+        quantity: 3,
+        status: "placed",
+        table: 322,
+        info: "None"
+      },
+      {
+        id: "211323de212131232",
+        item: "Pasta",
+        quantity: 2,
+        status: "placed",
+        table: 322,
+        info: "None"
+      }
+    ]
+  });
+});
+
 app.get("/", function(req, res) {
   res.render(__dirname + "/orderlist", {
     data: [
@@ -47,7 +78,7 @@ app.get("/", function(req, res) {
         info: "None"
       },
       {
-        id: "2113131212131232",
+        id: "2113131212131vhb232",
         item: "Pizza",
         quantity: 3,
         status: "placed",
@@ -55,7 +86,7 @@ app.get("/", function(req, res) {
         info: "None"
       },
       {
-        id: "2113131212131232",
+        id: "211313avhj1212131232",
         item: "Pizza",
         quantity: 3,
         status: "placed",
@@ -63,7 +94,7 @@ app.get("/", function(req, res) {
         info: "None"
       },
       {
-        id: "2113131212131232",
+        id: "211313121213123jlklmk2",
         item: "Pizza",
         quantity: 3,
         status: "placed",
@@ -71,7 +102,7 @@ app.get("/", function(req, res) {
         info: "None"
       },
       {
-        id: "2113131212131232",
+        id: "2113131212rtyu131232",
         item: "Pizza",
         quantity: 3,
         status: "placed",
