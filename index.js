@@ -28,86 +28,45 @@ app.post("/confirm_order/:orderId", (req, res) => {
 app.post("/finished_order/:orderId", (req, res) => {
   console.log("Order finished : " + req.params.orderId);
   // Database update! # TODO
-  res.render(__dirname + "/orderlist", {
-    data: [
-      {
-        id: "2113131212131232",
-        item: "Pizza",
-        quantity: 3,
-        status: "placed",
-        table: 322,
-        info: "None"
-      },
-      {
-        id: "211323de212131232",
-        item: "Pasta",
-        quantity: 2,
-        status: "placed",
-        table: 322,
-        info: "None"
-      }
-    ]
-  });
+  res.send("done");
 });
 
 app.get("/", function(req, res) {
   res.render(__dirname + "/orderlist", {
     data: [
       {
-        id: "2113131212131232",
-        item: "Pizza",
-        quantity: 3,
+        id: "123asas456",
+        items: [
+          { name: "Pizza", quantity: 2 },
+          { name: "Pasta", quantity: 4 },
+          { name: "msta", quantity: 4 },
+          { name: "costa", quantity: 4 },
+          { name: "fosta", quantity: 4 }
+        ],
         status: "placed",
         table: 322,
-        info: "None"
+        info: "Extra cheese in pizza and red sauce in pasta"
       },
       {
-        id: "211323de212131232",
-        item: "Pasta",
-        quantity: 2,
+        id: "7891dsdc01",
+        items: [{ name: "Pizza", quantity: 2 }, { name: "Pasta", quantity: 4 }],
         status: "placed",
         table: 322,
-        info: "None"
+        info: "Extra cheese in pizza and red sauce in pasta"
       },
       {
-        id: "211wewr12131232",
-        item: "Tomato Soup",
-        quantity: 3,
-        status: "confirmed",
-        table: 322,
-        info: "None"
-      },
-      {
-        id: "2113131212131vhb232",
-        item: "Pizza",
-        quantity: 3,
+        id: "1213ad14",
+        items: [{ name: "Pizza", quantity: 2 }, { name: "Pasta", quantity: 4 }],
         status: "placed",
         table: 322,
-        info: "None"
+        info: "Extra cheese in pizza and red sauce in pasta"
       },
       {
-        id: "211313avhj1212131232",
-        item: "Pizza",
-        quantity: 3,
+        id: "1516ascv17",
+        items: [{ name: "Pizza", quantity: 2 }, { name: "Pasta", quantity: 4 }],
         status: "placed",
         table: 322,
-        info: "None"
-      },
-      {
-        id: "211313121213123jlklmk2",
-        item: "Pizza",
-        quantity: 3,
-        status: "placed",
-        table: 322,
-        info: "None"
-      },
-      {
-        id: "2113131212rtyu131232",
-        item: "Pizza",
-        quantity: 3,
-        status: "placed",
-        table: 322,
-        info: "None"
+        info: "Extra cheese in pizza and red sauce in pasta"
       }
     ]
   });
