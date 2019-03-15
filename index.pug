@@ -1,3 +1,4 @@
+    
 doctype html
 html
   head
@@ -14,33 +15,41 @@ html
       a(class="navbar-brand" href="/") 
         div.h3 Kitchen / Orders
     br
-    div.container.container-fluid
-        each val in data 
-            div.card.border-primary.shadow.mb-2.bg-white.rounded(id=val['id'] )
-                div.card-header
-                    div.row
-                        div.col-sm-8.col-lg-6.col-md-6
-                            h3 #{val['item']} | #{val['quantity']}
-                        div.col-sm-4.col-lg-6.col-md-6
-                            div.btn-group(style="float: right; margin: auto;")
+
+    div.container
+        div.row
+            each val in data 
+                div.col-lg-4.col-md-12.col-sm-12(id=val['id'])
+                    div.card.border-danger.shadow-lg.mb-2.bg-white.rounded
+                        div.card-header.bg-danger
+                            h3(style="color: #e6ffff;") 
+                                b Table No. #{val['table']}
+                            p(style="color: white; font-size: 14px;") Order Id: #{val['id']}
+                        div
+                            div.card-body
+                                h4(style="padding-left: 10px;")  
+                                    b Items: 
+                                ul(style="padding-left: 30px; min-height: 200px;")
+                                    each item in val['items']
+                                        li 
+                                            div.row
+                                                div.col(style="display: none" id="counter" + val['id']) #{val['items'].length}
+                                                div.col
+                                                    h4(id=item['name'] + val['id']) #{item['name']} &#10006; #{item['quantity']}
+                                                div.col
+                                                    button.btn.btn-outline-success(style="disabled: false; float: right; width: 40px; height: 35px; margin: 0px;" onclick="decrementCounter('" + item['name'] + "','"+ val['id'] + "')" id="button" +  item['name'] + val['id'])
+                                                        i.material-icons done
+                                
+                                h5(style="padding-left: 10px;")  
+                                    b Additional Info: 
+                                h6(style="padding-left: 10px;")= val['info']
+                        div(style="padding-bottom: 5px; text-align: center;")
+                            div.btn-group
                                 if val['status'] === 'placed'
-                                    button.btn.btn-outline-danger.btn-sm.confirm(title="Confirm Order" id="confirm" + val['id'] onclick="confirmOrder('" + val['id'] + "')")
-                                        i.material-icons settings
-                                    button.btn.btn-outline-success.btn-sm(title="Completed"  id="done" + val['id'] disabled='disabled' onclick="completedOrder('" + val['id'] + "')" )
+                                    button.btn.btn-success.btn-md(style="width: 100px;" title="Completed"  id="done" + val['id'] disabled='disabled' onclick="completedOrder('" + val['id'] + "')" )
                                         i.material-icons done
                                 else
                                     button.btn.btn-outline-danger.btn-sm.confirm(title="Confirm Order" id="confirm" + val['id'] disabled='disabled' onclick="confirmOrder('" + val['id'] + "')")
                                         i.material-icons settings
                                     button.btn.btn-outline-success.btn-sm( id="done" + val['id'] title="Completed" onclick="completedOrder('" + val['id'] + "')")
                                         i.material-icons done
-                div
-                    div.card-body
-                        h6(style="padding-left: 45px;") 
-                            b Order Id: 
-                            span #{val['id']}
-                        h6(style="padding-left: 45px;") 
-                            b Table Number: 
-                            span #{val['table']}
-                        h6(style="padding-left: 45px;") 
-                            b Additional Information: 
-                            span #{val['info']}

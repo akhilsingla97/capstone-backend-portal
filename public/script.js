@@ -11,7 +11,7 @@ function confirmOrder(id) {
       alert("Order Confirmed!");
     }
   };
-  xhttp.open("POST", "confirm_order/" + id, true);
+  xhttp.open("POST", "confirm/" + id, true);
   xhttp.send();
 }
 
@@ -19,9 +19,9 @@ function completedOrder(id) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      $("#" + id).hide();
+      $("#" + id).remove();
     }
   };
-  xhttp.open("POST", "finished_order/" + id, true);
+  xhttp.open("POST", "prepared/" + id, true);
   xhttp.send();
 }

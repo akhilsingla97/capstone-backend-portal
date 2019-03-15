@@ -53,11 +53,11 @@ app.get("/", (req, res, next) => {
             // console.log(data.val().Order[orderId[i]])
             for(var j=0;j<data.val().Order[orderId[i]].food_items.length;j++)
                 testData.push({"item" : data.val().Order[orderId[i]].food_items[j],
-                    "id" : 0,
+                    "id" : orderId[i] + j,
                     "quantity" : data.val().Order[orderId[i]].quantity[j],
                     "status" : "Pending",
                     "table" : "101",
-                    "info" : "NA"
+                    "info" : data.val().Order[orderId[i]].special_instruction
             })
         }
         sendData["data"] = testData;
@@ -74,13 +74,14 @@ app.get("/", (req, res, next) => {
 
 
 //triggered on confirmation of order
-app.get('/confirm/:orderId', (req,res) => {
+app.post('/confirm/:orderId', (req,res) => {
     let orderId = req.params.orderId;
     let ref = database.ref('test/'+orderId)
     ref.on('value', (data) => {
         //let orderId = req.params.orderId;
         console.log(orderId);
         console.log(data.val());
+        res.sendStatus(200);
     }, (err) => {
         console.log(err);
         res.sendStatus(500);
@@ -88,12 +89,13 @@ app.get('/confirm/:orderId', (req,res) => {
 });
 
 //triggered when order is prepared
-app.get('/prepared/:orderId', (req,res) => {
+app.post('/prepared/:orderId', (req,res) => {
     let orderId = req.params.orderId;
     ref = database.ref('test/orderId')
     ref.on('value', (data) => {
         //Add the suitable query here
         console.log(orderId);
+        res.sendStatus(200);
     }, (err) => {
         console.log(err);
         res.sendStatus(500);
