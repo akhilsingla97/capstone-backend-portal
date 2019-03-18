@@ -51,14 +51,22 @@ app.get("/", (req, res, next) => {
         }
         for(var i=0;i<orderId.length;i++){
             // console.log(data.val().Order[orderId[i]])
-            for(var j=0;j<data.val().Order[orderId[i]].food_items.length;j++)
-                testData.push({"item" : data.val().Order[orderId[i]].food_items[j],
-                    "id" : orderId[i] + j,
-                    "quantity" : data.val().Order[orderId[i]].quantity[j],
+            var items = []
+            var tmp = {
+                    "id" : orderId[i],
                     "status" : "Pending",
                     "table" : "101",
                     "info" : data.val().Order[orderId[i]].special_instruction
-            })
+            }
+
+            for(var j=0;j<data.val().Order[orderId[i]].food_items.length;j++){
+                items.push({
+                    "name": data.val().Order[orderId[i]].food_items[j],
+                    "quantity": data.val().Order[orderId[i]].quantity[j]
+                });
+                tmp["items"] = items;
+            }
+            testData.push(tmp);
         }
         sendData["data"] = testData;
         // console.log(orderId);

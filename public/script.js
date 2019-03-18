@@ -20,8 +20,26 @@ function completedOrder(id) {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       $("#" + id).remove();
+      alert("Order finished!");
     }
   };
   xhttp.open("POST", "prepared/" + id, true);
   xhttp.send();
+}
+
+function decrementCounter(itemid, orderid) {
+  var buttonId = "button" + itemid + orderid;
+  var counterId = "counter" + orderid;
+  var itemId = itemid + orderid;
+  var count = document.getElementById(counterId).innerHTML;
+  count -= 1;
+  document.getElementById(counterId).innerHTML = count;
+  document.getElementById(itemId).style.color = "#d96950";
+  // incase you want strikes
+  // var str = document.getElementById(itemId).innerHTML;
+  // document.getElementById(itemId).innerHTML = str.strike();
+  if (count === 0) {
+    document.getElementById("done" + orderid).disabled = false;
+  }
+  document.getElementById(buttonId).disabled = true;
 }
