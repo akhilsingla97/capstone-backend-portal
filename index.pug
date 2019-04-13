@@ -15,44 +15,65 @@ html
         div.h3 Kitchen / Orders
     br
 
+    wbr
+
+    div.container
+        div.row
+            each val in waiterWork
+                if val['waiter'] == "required"
+                    div.col-lg-3(id=val['id'])
+                        div.card.border-primary.shadow-lg.mb-2.bg-white.rounded
+                            div(style="text-align: center;")
+                                .card-header.bg-primary
+                                    h4(style="color: white; text-align: center") 
+                                        b Table No. #{val['table']}
+                                div
+                                    div.card-body(style="text-align: center; min-height: 100px;")
+                                        h5(style="")= val['purpose']
+                                button.btn.btn-success.btn-md(style="margin-bottom: 10px; width: 100px;" title="Send Waiter"  id="done" + val['id']  onclick="SendingWaiter('" + val['id'] + "')" )
+                                            i.material-icons done
+
+    div.container
+        hr(style="border: 2px solid blue;")
+
     div.container
         div.row
             each val in data 
-                div.col-lg-4.col-md-12.col-sm-12(id=val['id'])
-                    div.card.border-danger.shadow-lg.mb-2.bg-white.rounded
-                        div.card-header.bg-danger
-                            h3(style="color: #e6ffff;") 
-                                b Table No. #{val['table']}
-                            p(style="color: white; font-size: 14px;") Order Id: #{val['id']}
-                        div
-                            div.card-body
-                                h4(style="padding-left: 10px;")  
-                                    b Items: 
-                                ul(style="padding-left: 30px; min-height: 200px;")
-                                    each item in val['items']
-                                        li(style="padding: 3px;") 
-                                            div.row
-                                                div.col(style="display: none" id="counter" + val['id']) #{val['items'].length}
-                                                div.col.col-lg-9
-                                                    h6(id=item['name'] + val['id']) #{item['name']} &#10006; #{item['quantity']}
-                                                div.col.col-lg-3
-                                                    button.btn.btn-outline-success(style="disabled: false; float: right; width: 40px; height: 35px; margin: 0px;" onclick="decrementCounter('" + item['name'] + "','"+ val['id'] + "')" id="button" +  item['name'] + val['id'])
-                                                        i.material-icons done
+                if val['status'] === 'Confirmed'
+                    div.col-lg-4.col-md-12.col-sm-12(id=val['id'])
+                        div.card.border-danger.shadow-lg.mb-2.bg-white.rounded
+                            div.card-header.bg-danger
+                                h3(style="color: #e6ffff;") 
+                                    b Table No. #{val['table']}
+                                p(style="color: white; font-size: 14px;") Order Id: #{val['id']}
+                            div
+                                div.card-body
+                                    h4(style="padding-left: 10px;")  
+                                        b Items: 
+                                    ul(style="padding-left: 30px; min-height: 200px;")
+                                        each item in val['items']
+                                            li(style="padding: 3px;") 
+                                                div.row
+                                                    div.col(style="display: none" id="counter" + val['id']) #{val['items'].length}
+                                                    div.col.col-lg-9
+                                                        h6(id=item['name'] + val['id']) #{item['name']} &#10006; #{item['quantity']}
+                                                    div.col.col-lg-3
+                                                        button.btn.btn-outline-success(style="disabled: false; float: right; width: 40px; height: 35px; margin: 0px;" onclick="decrementCounter('" + item['name'] + "','"+ val['id'] + "')" id="button" +  item['name'] + val['id'])
+                                                            i.material-icons done
 
-                                
-                                h5(style="padding-left: 10px;")  
-                                    b Additional Info: 
-                                h6(style="padding-left: 10px;")= val['info']
-                        div(style="padding-bottom: 5px; text-align: center;")
-                            div.btn-group
-                                if val['status'] === 'Pending'
+                                    
+                                    h5(style="padding-left: 10px;")  
+                                        b Additional Info: 
+                                    h6(style="padding-left: 10px;")= val['info']
+                            div(style="padding-bottom: 5px; text-align: center;")
+                                div.btn-group
                                     button.btn.btn-success.btn-md(style="width: 100px;" title="Completed"  id="done" + val['id'] disabled='disabled' onclick="completedOrder('" + val['id'] + "')" )
-                                        i.material-icons done
-                                else
-                                    button.btn.btn-outline-danger.btn-sm.confirm(title="Confirm Order" id="confirm" + val['id'] disabled='disabled' onclick="confirmOrder('" + val['id'] + "')")
-                                        i.material-icons settings
-                                    button.btn.btn-outline-success.btn-sm( id="done" + val['id'] title="Completed" onclick="completedOrder('" + val['id'] + "')")
-                                        i.material-icons done
+                                            i.material-icons done
+                                //- else
+                                //-     button.btn.btn-outline-danger.btn-sm.confirm(title="Confirm Order" id="confirm" + val['id'] disabled='disabled' onclick="confirmOrder('" + val['id'] + "')")
+                                //-         i.material-icons settings
+                                //-     button.btn.btn-outline-success.btn-sm( id="done" + val['id'] title="Completed" onclick="completedOrder('" + val['id'] + "')")
+                                //-         i.material-icons done
                                 
 
     div.container.container-fluid(style="display: none;")
