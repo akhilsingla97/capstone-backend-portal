@@ -58,14 +58,25 @@ function SendingWaiter(id) {
 
 function submitForm(){
   console.log('function called')
-  // var xhttp = new XMLHttpRequest();
-  // xhttp.onreadystatechange = function() {
-  //   if (this.readyState == 4 && this.status == 200) {
-  //     alert("Logging in");
-  //   }
-  // };
-  // console.log('testing')
-  // xhttp.open("POST", "login/", true);
-  location.replace("/home");
+  var email = $("#exampleInputEmail1").val();
+  var pwd = $("#exampleInputPassword1").val()
+  $.post('/login',{"email":email, "password":pwd}, (token)=>{
+    if(token=="e-mail id invalid")
+      alert(token);
+    else if(token=="Incorrect Password")
+      alert(token);
+    else
+      location.replace("/home")
+  })
+  // location.replace("/home");
   // xhttp.send();
 }
+
+// $("#submitForm").click(function(){
+//   console.log('hello')
+//   var email = $("exampleInputEmail1").val()
+//   var pwd = $("exampleInputPassword1").val()
+//   $.post('/login',{"email":email, "password":pwd},()=>{
+//     location.replace("/home")
+//   })
+// })

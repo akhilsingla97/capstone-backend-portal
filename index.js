@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const firebase = require('firebase');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.post('/login', (req,res) => {
     
     let email = req.body.email;
     let password = req.body.password;
+    console.log(email, password);
     if(email != credentials.username){
         res.send("e-mail id invalid");
         return;
@@ -43,12 +45,16 @@ app.post('/login', (req,res) => {
         res.send("Incorrect Password");
         return;
     }
+    else{
+        res.send("OK");
+        return;
+    }
     // this thing will ensure protection of routes which require login from user
-    jwt.sign({user: result[0]}, 'hashkey', (err, token) => {
-        res.json({
-            token
-        });
-    })    
+    // jwt.sign({user: result[0]}, 'hashkey', (err, token) => {
+    //     res.json({
+    //         token
+    //     });
+    // })    
 });
 
 
