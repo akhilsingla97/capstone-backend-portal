@@ -20,18 +20,46 @@ const server = app.listen(process.env.PORT || 3000, function () {
 
 // Initialize Firebase
 var config = require("./config.json")
+var credentials = require("./credentials.json")
 
 firebase.initializeApp(config);
 
 var database = firebase.database();
 var ref = database.ref('capstone-f942f')
 
+app.get('/',(req,res)=>{
+    res.sendFile('index.html');
+});
+
+app.post('/login', (req,res) => {
+    
+    let email = req.body.email;
+    let password = req.body.password;
+    if(email != credentials.username){
+        res.send("e-mail id invalid");
+        return;
+    }
+    else if(password!=credentials.password){
+        res.send("Incorrect Password");
+        return;
+    }
+    // this thing will ensure protection of routes which require login from user
+    jwt.sign({user: result[0]}, 'hashkey', (err, token) => {
+        res.json({
+            token
+        });
+    })    
+});
+
+
 //variables to be used in all functions and files
 var sendData = {};
 var foodData = [];
 var waiterData = [];
 
-app.get("/", (req, res, next) => {
+//token verification needs to be added
+//app.get("/home", verifyToken, (req, res, next) => {
+app.get("/home", (req, res, next) => {
     sendData = {};
     foodData = [];
     waiterData = [];
@@ -105,3 +133,21 @@ app.post('/sendWaiter/:requestId', (req,res) =>{
     ref.update({waiter:"catered"});
     res.sendStatus(200);
 });
+
+//Verify token
+function verifyToken(req, res, next){
+    const bearerHeader = req.headers['authorization'];
+
+    if(typeof bearerHeader !== 'undefined'){    
+        const bearer = bearerHeader.split(' ');
+        //Get token from array
+        const bearerToken = bearer[1];
+        //set token in req header
+        req.token = bearerToken;
+        next();
+    }
+    
+    else{
+        res.sendStatus(403);
+    }
+}

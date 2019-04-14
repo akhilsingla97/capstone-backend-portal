@@ -55,3 +55,17 @@ function SendingWaiter(id) {
   xhttp.open("POST", "sendWaiter/" + id, true);
   xhttp.send();
 }
+
+function submitForm(){
+  console.log('function called')
+  // var xhttp = new XMLHttpRequest();
+  // xhttp.onreadystatechange = function() {
+  //   if (this.readyState == 4 && this.status == 200) {
+  //     alert("Logging in");
+  //   }
+  // };
+  // console.log('testing')
+  // xhttp.open("POST", "login/", true);
+  location.replace("/home");
+  // xhttp.send();
+}
