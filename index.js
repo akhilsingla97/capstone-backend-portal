@@ -65,7 +65,7 @@ var waiterData = [];
 
 //token verification needs to be added
 //app.get("/home", verifyToken, (req, res, next) => {
-app.get("/home", (req, res, next) => {
+app.get("/home", async (req, res, next) => {
     sendData = {};
     foodData = [];
     waiterData = [];
@@ -115,12 +115,11 @@ app.get("/home", (req, res, next) => {
             }
         }
         sendData["waiterWork"] = waiterData;
-        console.log("sendData: ",sendData);
+        next();
+        // console.log("sendData: ",sendData);
     }, (err)=>{
         console.log(err)
-    })
-    next()
-    }, (req, res)=>{
+    })}, (req, res)=>{
         res.render(__dirname + "/index", sendData);
 });
 
