@@ -142,7 +142,7 @@ app.get("/generateBill/:tableNo", (req, res) => {
                 var itemName = data.val().Order[orderId[i]].food_items[j];
                 var price;
                 for(foodItems in menuItems) {
-                    if(foodItems == itemName){
+                    if(foodItems == itemName.toUpperCase()){
                         price = menuItems[foodItems];
                     }
                 }
