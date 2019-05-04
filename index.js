@@ -22,6 +22,7 @@ const server = app.listen(process.env.PORT || 3000, function () {
 // Initialize Firebase
 var config = require("./config.json")
 var credentials = require("./credentials.json")
+var menuItems = require('./menu.json')
 
 firebase.initializeApp(config);
 
@@ -123,6 +124,53 @@ app.get("/home", async (req, res, next) => {
         res.render(__dirname + "/index", sendData);
 });
 
+app.get("/generateBill/:tableNo", (req, res) => {
+    // sendData = {};
+    foodData = [];
+    // waiterData = [];
+    ref = database.ref('TableNo101')
+    ref.on('value', (data)=> {
+        //data for food orders
+        var orderId = [];
+        for(item in data.val().Order){
+            orderId.push(item);
+        }
+        for(var i=0;i<orderId.length;i++){
+            // console.log(data.val().Order[orderId[i]])
+            var items = []
+            for(var j=0;j<data.val().Order[orderId[i]].food_items.length;j++){
+                var itemName = data.val().Order[orderId[i]].food_items[j];
+                var price;
+                for(foodItems in menuItems) {
+                    if(foodItems == itemName){
+                        price = menuItems[foodItems];
+                    }
+                }
+                items.push({
+                    "name": data.val().Order[orderId[i]].food_items[j],
+                    "quantity": data.val().Order[orderId[i]].quantity[j],
+                    "price" : price
+                });
+                foodData["items"] = items;
+            }
+        }
+        console.log(foodData);
+    })
+    res.send(foodData);
+});
+
+// app.get('/generateBill/:requestId',(req,res) => {
+//     let requestId = req.params.requestId;
+//     ref = database.ref('/TableNo101/Order');
+//     ref.on('value',(data)=>{
+//         let foodItem = [];
+//         for(item in data.val()){
+//             for(food in item){
+//                 foodItem.push({})
+//             }
+//         }
+//     })
+// })
 
 //triggered when order is prepared
 app.post('/prepared/:orderId', (req,res) => {
