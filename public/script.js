@@ -44,7 +44,7 @@ function decrementCounter(itemid, orderid) {
   document.getElementById(buttonId).disabled = true;
 }
 
-function SendingWaiter(id) {
+function SendingWaiter(id, purpose) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -52,7 +52,10 @@ function SendingWaiter(id) {
       alert("Waiter sent...");
     }
   };
-  xhttp.open("POST", "sendWaiter/" + id, true);
+  if(purpose == "Generate Bill")
+    xhttp.open("GET", "generateBill/101", true);
+  else
+    xhttp.open("POST", "sendWaiter/" + id, true);
   xhttp.send();
 }
 

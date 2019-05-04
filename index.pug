@@ -30,7 +30,7 @@ html
                                 div
                                     div.card-body(style="text-align: center; min-height: 100px;")
                                         h5(style="")= val['purpose']
-                                button.btn.btn-success.btn-md(style="margin-bottom: 10px; width: 100px;" title="Send Waiter"  id="done" + val['id']  onclick="SendingWaiter('" + val['id'] + "')" )
+                                button.btn.btn-success.btn-md(style="margin-bottom: 10px; width: 100px;" title="Send Waiter"  id="done" + val['id']  onclick="SendingWaiter('" + val['id'] + "','" + val['purpose'] + "')" )
                                             i.material-icons done
 
     div.container
