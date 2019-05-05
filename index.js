@@ -83,7 +83,6 @@ app.get("/home", async (req, res, next) => {
             var items = []
             var tmp = {
                     "id" : orderId[i],
-                    // "status" : "Pending",
                     "status" : data.val().Order[orderId[i]].status,
                     "table" : "101",
                     "info" : data.val().Order[orderId[i]].special_instruction
@@ -124,10 +123,8 @@ app.get("/home", async (req, res, next) => {
         res.render(__dirname + "/index", sendData);
 });
 
-app.get("/generateBill/:tableNo", (req, res) => {
-    // sendData = {};
-    foodData = [];
-    // waiterData = [];
+app.get("/generateBill/:tableNo", async (req, res, next) => {
+    foodData = {};
     ref = database.ref('TableNo101')
     ref.on('value', (data)=> {
         //data for food orders
@@ -135,28 +132,37 @@ app.get("/generateBill/:tableNo", (req, res) => {
         for(item in data.val().Order){
             orderId.push(item);
         }
+        var price, totalPrice = 0;
         for(var i=0;i<orderId.length;i++){
-            // console.log(data.val().Order[orderId[i]])
             var items = []
             for(var j=0;j<data.val().Order[orderId[i]].food_items.length;j++){
                 var itemName = data.val().Order[orderId[i]].food_items[j];
-                var price;
+                var quantity = data.val().Order[orderId[i]].quantity[j]
                 for(foodItems in menuItems) {
                     if(foodItems == itemName.toUpperCase()){
-                        price = menuItems[foodItems];
+                        price = menuItems[foodItems]*quantity;
+                        totalPrice += price;
                     }
                 }
                 items.push({
-                    "name": data.val().Order[orderId[i]].food_items[j],
-                    "quantity": data.val().Order[orderId[i]].quantity[j],
+                    "menuitem": itemName,
+                    "quantity": quantity,
                     "price" : price
                 });
                 foodData["items"] = items;
             }
         }
+        foodData["tableno"] = 101;
+        foodData["total"] = totalPrice;
+        foodData["tax"] = totalPrice/20;
+        foodData["grandtotal"] = totalPrice*1.05;
+
         console.log(foodData);
-    })
-    res.send(foodData);
+        next();
+    }, (err)=>{
+        console.log(err);
+    })}, (req,res)=>{
+    res.render(__dirname+"/bill",foodData);
 });
 
 // app.get('/generateBill/:requestId',(req,res) => {

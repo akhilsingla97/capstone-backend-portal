@@ -52,10 +52,11 @@ function SendingWaiter(id, purpose) {
       alert("Waiter sent...");
     }
   };
-  if(purpose == "Generate Bill")
-    xhttp.open("GET", "generateBill/101", true);
-  else
-    xhttp.open("POST", "sendWaiter/" + id, true);
+  if(purpose == "Generate Bill"){
+    // xhttp.open("GET", "generateBill/101", true);
+    location.replace("/generateBill/101")
+  }
+  xhttp.open("POST", "sendWaiter/" + id, true);
   xhttp.send();
 }
 
