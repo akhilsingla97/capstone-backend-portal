@@ -133,8 +133,8 @@ app.get("/generateBill/:tableNo", async (req, res, next) => {
             orderId.push(item);
         }
         var price, totalPrice = 0;
+        var items = []
         for(var i=0;i<orderId.length;i++){
-            var items = []
             for(var j=0;j<data.val().Order[orderId[i]].food_items.length;j++){
                 var itemName = data.val().Order[orderId[i]].food_items[j];
                 var quantity = data.val().Order[orderId[i]].quantity[j]
@@ -162,6 +162,8 @@ app.get("/generateBill/:tableNo", async (req, res, next) => {
     }, (err)=>{
         console.log(err);
     })}, (req,res)=>{
+        // ref = database.ref('TableNo101/Order/')
+
     res.render(__dirname+"/bill",foodData);
 });
 
